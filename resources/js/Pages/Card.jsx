@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 
-const Card = ({ foto, nama, harga, onItemChange, index, className }) => {
+const Card = ({ foto, nama, harga, onItemChange, index }) => {
     const imageUrl = `/storage/images/${foto}`;
 
     const [value, setValue] = useState(0);
 
     const handleChange = (newValue) => {
         setValue(newValue);
-        onItemChange(index, { item: nama, jumlah: newValue });
+        onItemChange(index, newValue);
     };
 
     const minus = () => {
@@ -47,7 +46,9 @@ const Card = ({ foto, nama, harga, onItemChange, index, className }) => {
                         type="number"
                         className="w-8 text-center rounded-md bg-transparent"
                         value={value}
-                        onChange={(e) => handleChange(parseInt(e.target.value))}
+                        onChange={(e) =>
+                            handleChange(parseInt(e.target.value) || 0)
+                        }
                         min={0}
                     />
                     <button

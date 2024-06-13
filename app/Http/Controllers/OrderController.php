@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Orderitems;
+use App\Models\Menu;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,7 +19,8 @@ class OrderController extends Controller
 
         // Mengirim data ke komponen Vue 'Pesanan'
         return Inertia::render('Pesanan', [
-            'orders' => $orders
+            'orders' => $orders,
+            'menu' => Menu::all() 
         ]);
     }
 
@@ -26,29 +28,31 @@ class OrderController extends Controller
      * Show the form for creating a new resource.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'atas_nama' => 'required|string|max:255',
-            'items' => 'required|array',
-            'items.*.item' => 'required|string|max:255',
-            'items.*.jumlah' => 'required|integer|min:1',
-        ]);
+{
+    $request->validate([
+        'atas_nama' => 'required|string|max:255',
+        'items' => 'required|array',
+        'items.*.item' => 'required|string|max:255',
+        'items.*.jumlah' => 'integer|min:0', // Allow minimum of 0 for jumlah
+    ]);
 
-        $order = Order::create([
-            'atas_nama' => $request->atas_nama,
-        ]);
+    $order = Order::create([
+        'atas_nama' => $request->atas_nama,
+    ]);
 
-        foreach ($request->items as $item) {
-            Orderitems  ::create([
+    foreach ($request->items as $item) {
+        if ($item['jumlah'] > 0) { // Only create order items for non-zero jumlah
+            Orderitems::create([
                 'order_id' => $order->id,
                 'item' => $item['item'],
                 'jumlah' => $item['jumlah'],
                 'atas_nama' => $request->atas_nama,
             ]);
         }
-
-        return redirect()->back()->with('success', 'Order has been placed successfully');
     }
+
+    return redirect()->back()->with('success', 'Order has been placed successfully');
+}
 
 
 
