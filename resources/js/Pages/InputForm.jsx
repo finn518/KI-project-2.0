@@ -23,6 +23,7 @@ const InputForm = () => {
             });
 
             console.log(response.data);
+            window.location.reload();
         } catch (error) {
             if (error.response) {
                 // Tanggapan dari server dengan kode status yang tidak diharapkan
