@@ -16,6 +16,7 @@ use Inertia\Inertia;
 // });
 
 Route::resource('/', OrderController::class);
+Route::post('/order', [OrderController::class, 'store'])->name('order.store');
 
 Route::get('/admin', function() {
     return Inertia::render('Admin');

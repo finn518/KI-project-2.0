@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 
-const Cards = ({ data }) => {
+const Cards = ({ data, onItemChange }) => {
     const [cardsData, setCardsData] = useState([]);
 
     useEffect(() => {
@@ -16,8 +16,8 @@ const Cards = ({ data }) => {
                     foto={item.gambar}
                     nama={item.nama}
                     harga={item.harga}
-                    jumlah={item.jumlah}
                     index={index}
+                    onItemChange={onItemChange}
                 />
             ))}
         </div>

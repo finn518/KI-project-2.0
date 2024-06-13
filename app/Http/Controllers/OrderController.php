@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Orderitems;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -26,8 +27,27 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-   
+        $request->validate([
+            'atas_nama' => 'required|string|max:255',
+            'items' => 'required|array',
+            'items.*.item' => 'required|string|max:255',
+            'items.*.jumlah' => 'required|integer|min:1',
+        ]);
 
+        $order = Order::create([
+            'atas_nama' => $request->atas_nama,
+        ]);
+
+        foreach ($request->items as $item) {
+            Orderitems  ::create([
+                'order_id' => $order->id,
+                'item' => $item['item'],
+                'jumlah' => $item['jumlah'],
+                'atas_nama' => $request->atas_nama,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Order has been placed successfully');
     }
 
 

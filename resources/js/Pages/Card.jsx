@@ -1,18 +1,24 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-const Card = ({ foto, nama, harga }) => {
+const Card = ({ foto, nama, harga, onItemChange, index }) => {
     const imageUrl = `/storage/images/${foto}`;
 
     const [value, setValue] = useState(0);
+
+    const handleChange = (newValue) => {
+        setValue(newValue);
+        onItemChange(index, { item: nama, jumlah: newValue });
+    };
+
     const minus = () => {
         if (value > 0) {
-            setValue(value - 1);
+            handleChange(value - 1);
         }
     };
 
     const plus = () => {
-        setValue(value + 1);
+        handleChange(value + 1);
     };
 
     return (
@@ -45,7 +51,7 @@ const Card = ({ foto, nama, harga }) => {
                     type="number"
                     className="w-1/2 h-12 bg-slate-200 rounded-md flex items-center justify-center text-center border-none"
                     value={value}
-                    onChange={(e) => setValue(parseInt(e.target.value))}
+                    onChange={(e) => handleChange(parseInt(e.target.value))}
                     min={0}
                 />
                 <button
