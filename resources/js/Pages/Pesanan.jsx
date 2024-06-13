@@ -4,22 +4,46 @@ const Pesanan = (props) => {
     console.log(props);
     return (
         <div>
-            <h1>Daftar Pesanan</h1>
-            {props.orders.map((order) => (
-                <div key={order.id}>
-                    <h2>
-                        Pesanan #{order.id} - Atas Nama: {order.atas_nama}
-                    </h2>
-                    <ul>
-                        {order.order_items.map((item) => (
-                            <li key={item.id}>
-                                {item.item} - Quantity: {item.jumlah} - Atas
-                                Nama: {item.atas_nama}
-                            </li>
+            <h1 className="text-4xl text-center my-6">Daftar Pesanan</h1>
+            <div className="overflow-x-auto">
+                <table className="table">
+                    {/* head */}
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Atas Nama</th>
+                            <th>Pesanan</th>
+                            <th>Jumlah</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {props.orders.map((order) => (
+                            <tr key={order.id}>
+                                <th>{order.id}</th>
+                                <td>{order.atas_nama}</td>
+                                <td>
+                                    <ul>
+                                        {order.order_items.map((item) => (
+                                            <li key={item.id}>
+                                                {item.item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                        {order.order_items.map((item) => (
+                                            <li key={item.id}>
+                                                {item.jumlah}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </td>
+                            </tr>
                         ))}
-                    </ul>
-                </div>
-            ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };
