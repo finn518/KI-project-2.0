@@ -6,7 +6,7 @@ import InputForm from "./InputForm";
 const Admin = (props) => {
     return (
         <section className="relative">
-            <Navbar content={["Makanan", "Minuman"]} />
+            <Navbar content={"Pesanan"} />
             <InputForm />
             <Cards data={props.menu} />
         </section>
