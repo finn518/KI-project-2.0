@@ -1,7 +1,11 @@
 import React from "react";
 
 const Pesanan = (props) => {
-    console.log(props);
+    const getMenuPrice = (menuId) => {
+        const menu = props.menu.find((menuItem) => menuItem.id === menuId);
+        return menu ? menu.harga : 0;
+    };
+
     return (
         <div>
             <h1 className="text-4xl text-center my-6">Daftar Pesanan</h1>
@@ -14,6 +18,7 @@ const Pesanan = (props) => {
                             <th>Atas Nama</th>
                             <th>Pesanan</th>
                             <th>Jumlah</th>
+                            <th>Total Harga</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -24,9 +29,14 @@ const Pesanan = (props) => {
                                 <td>
                                     <ul>
                                         {order.order_items.map((item) => (
-                                            <li key={item.id}>
-                                                {item.item}
-                                            </li>
+                                            <li key={item.id}>{item.item}</li>
+                                        ))}
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                        {order.order_items.map((item) => (
+                                            <li key={item.id}>{item.jumlah}</li>
                                         ))}
                                     </ul>
                                 </td>
@@ -34,7 +44,9 @@ const Pesanan = (props) => {
                                     <ul>
                                         {order.order_items.map((item) => (
                                             <li key={item.id}>
-                                                {item.jumlah}
+                                                {item.jumlah *
+                                                    getMenuPrice(item)}
+                                                {console.log(item)}
                                             </li>
                                         ))}
                                     </ul>
