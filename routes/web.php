@@ -22,9 +22,7 @@ Route::resource('/', MenuController::class);
 Route::get('/admin', [MenuController::class, 'indexAdmin'])->name('admin');
 Route::post('/admin', [MenuController::class, 'store']);
 
-
-
-Route::get('/signin', function() {
+Route::get('/p', function() {
     return Inertia::render('Login');
 });
 
