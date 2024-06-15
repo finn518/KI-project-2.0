@@ -18,6 +18,7 @@ use App\Models\Menu;
 // });
 
 Route::resource('/order', OrderController::class);
+Route::resource('/manager', OrderController::class);
 Route::resource('/', MenuController::class);
 Route::get('/admin', [MenuController::class, 'indexAdmin'])->name('admin');
 Route::post('/admin', [MenuController::class, 'store']);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cards from "@/Pages/Cards";
+import Card from './Card';
 import { useForm } from "@inertiajs/react";
 
 const Home = (props) => {
@@ -37,7 +38,7 @@ const Home = (props) => {
 
     return (
         <div className="flex flex-col pb-[2%]">
-            <Cards data={props.menu} onItemChange={handleItemChange} />
+            <Cards data={props.menu} onItemChange={handleItemChange} CardComponent={Card} isAdmin={false}/>
             <form
                 onSubmit={handleSubmit}
                 className="flex flex-row items-center justify-start mt-8 space-x-4"

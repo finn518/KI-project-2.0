@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Card from "./Card";
 
-const Cards = ({ data, onItemChange }) => {
+const Cards = ({ data, onItemChange, CardComponent, isAdmin }) => {
     const [cardsData, setCardsData] = useState([]);
 
     useEffect(() => {
@@ -11,13 +10,14 @@ const Cards = ({ data, onItemChange }) => {
     return (
         <div className="grid grid-cols-4 gap-y-12 place-items-center p-12">
             {cardsData.map((item, index) => (
-                <Card
+                <CardComponent
                     key={index}
                     foto={item.gambar}
                     nama={item.nama}
                     harga={item.harga}
                     index={index}
                     onItemChange={onItemChange}
+                    isAdmin={isAdmin}
                 />
             ))}
         </div>

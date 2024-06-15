@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Card = ({ foto, nama, harga, onItemChange, index }) => {
+const Card = ({ foto, nama, harga, onItemChange, index, isAdmin }) => {
     const imageUrl = `/storage/images/${foto}`;
 
     const [value, setValue] = useState(0);
@@ -35,30 +35,41 @@ const Card = ({ foto, nama, harga, onItemChange, index }) => {
             <h2 className="text-2xl font-bold">{nama}</h2>
             <div className="flex justify-between items-center">
                 <p className="text-lg font-bold text-[#5E1675]">RP {harga}</p>
-                <div className="flex gap-1">
+                {!isAdmin && (
+                    <div className="flex gap-1">
+                        <button
+                            className="bg-slate-400 px-2 size-8 text-slate-50 rounded-full"
+                            onClick={minus}
+                        >
+                            -
+                        </button>
+                        <input
+                            type="number"
+                            className="w-8 text-center rounded-md bg-transparent"
+                            value={value}
+                            onChange={(e) =>
+                                handleChange(parseInt(e.target.value) || 0)
+                            }
+                            min={0}
+                        />
+                        <button
+                            className="bg-[#5E1675] px-2 size-8 text-slate-50 rounded-full text-center"
+                            onClick={plus}
+                        >
+                            +
+                        </button>
+                    </div>
+                )}
+            </div>
+            {isAdmin && (
+                <div className="flex justify-center mt-2">
                     <button
-                        className="bg-slate-400 px-2 size-8 text-slate-50 rounded-full"
-                        onClick={minus}
+                        className="bg-red-400 px-2 size-8 text-slate-50 rounded-full w-1/2"
                     >
-                        -
-                    </button>
-                    <input
-                        type="number"
-                        className="w-8 text-center rounded-md bg-transparent"
-                        value={value}
-                        onChange={(e) =>
-                            handleChange(parseInt(e.target.value) || 0)
-                        }
-                        min={0}
-                    />
-                    <button
-                        className="bg-[#5E1675] px-2 size-8 text-slate-50 rounded-full text-center"
-                        onClick={plus}
-                    >
-                        +
+                        Hapus
                     </button>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

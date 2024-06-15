@@ -25,7 +25,7 @@ const Navbar = ({ content }) => {
                        rounded-box w-52 bg-[#5E1675] py-4"
                   >
                       <li className=" text-slate-50 hover:bg-[#FFD23F] hover:text-[#5E1675] rounded-md">
-                          <a className="text-lg">{content}</a>
+                          <a href="/order" className="text-lg">{content}</a>
                       </li>
                       <li className=" text-slate-50 hover:bg-[#EE4266] rounded-md">
                           <a className="text-lg">Logout</a>

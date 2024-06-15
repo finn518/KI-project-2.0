@@ -73,7 +73,7 @@ const InputForm = () => {
                 />
                 <button
                     type="submit"
-                    className="bg-purple-600 p-4 text-slate-50 rounded-md w-1/5"
+                    className="bg-purple-600 p-3 text-slate-50 rounded-md w-1/5"
                 >
                     Tambah
                 </button>
