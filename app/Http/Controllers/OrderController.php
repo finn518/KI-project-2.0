@@ -61,8 +61,7 @@ class OrderController extends Controller
         }
 
         $order->update(['total' => $total]);
-
-        return redirect()->back()->with('success', 'Order has been placed successfully');
+        return redirect()->back()->with('success', 'Pesanan anda masuk ke dalam antrian');
     }
 
 

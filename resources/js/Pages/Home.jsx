@@ -4,13 +4,22 @@ import Card from './Card';
 import { useForm } from "@inertiajs/react";
 
 const Home = (props) => {
-    console.log(props);
     const { data, setData, post } = useForm({
         atas_nama: "",
         items: props.menu.map((item) => ({ item: item.nama, jumlah: 0 })),
     });
 
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+    const [alert, setAlert] = useState(null);
+
+    useEffect(() => {
+        if (props.flash?.success) {
+            setAlert(props.flash.success);
+            setTimeout(() => {
+                setAlert(null);
+            }, 3000); // Menghilangkan alert setelah 3 detik
+        }
+    }, [props.flash]);
 
     useEffect(() => {
         const hasValidItem = data.items.some((item) => item.jumlah > 0);
@@ -38,6 +47,14 @@ const Home = (props) => {
 
     return (
         <div className="flex flex-col pb-[2%]">
+            {alert && (
+                <div
+                    className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded fixed top-4 left-1/2 transform -translate-x-1/2 z-50"
+                    role="alert"
+                >
+                    <span className="block sm:inline">{alert}</span>
+                </div>
+            )}
             <Cards data={props.menu} onItemChange={handleItemChange} CardComponent={Card} isAdmin={false}/>
             <form
                 onSubmit={handleSubmit}
