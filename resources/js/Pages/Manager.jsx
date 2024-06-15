@@ -1,24 +1,6 @@
 import React from "react";
-import axios from 'axios';
 
 const Manager = (props) => {
-    const handleCompleteOrder = (orderId) => {
-        // Implement the logic to complete the order
-        axios.post(`/orders/${orderId}/complete`, {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        })
-        .then(response => {
-            console.log(response.data);
-            // Refresh or update the orders list to reflect the changes
-            window.location.reload(); // Or update state to remove completed order
-        })
-        .catch(error => {
-            console.error(error);
-        });
-    };
-
     return (
         <div>
             <div className="flex flex-row justify-between my-6 mx-6">
