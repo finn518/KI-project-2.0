@@ -21,6 +21,13 @@ const Home = (props) => {
         }
     }, [props.flash]);
 
+    const resetForm = () => {
+        setData({
+            atas_nama: "",
+            items: props.menu.map((item) => ({ item: item.nama, jumlah: 0 })),
+        });
+    };
+
     useEffect(() => {
         const hasValidItem = data.items.some((item) => item.jumlah > 0);
         setIsSubmitDisabled(!hasValidItem);
@@ -36,6 +43,7 @@ const Home = (props) => {
                     items: validItems,
                 },
             });
+            resetForm();
         }
     };
 

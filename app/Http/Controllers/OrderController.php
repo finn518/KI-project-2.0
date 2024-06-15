@@ -24,6 +24,17 @@ class OrderController extends Controller
         ]);
     }
 
+    public function indexManager()
+    {
+        $orders = Order::with('orderItems')->get();
+
+        // Mengirim data ke komponen Vue 'Pesanan'
+        return Inertia::render('Manager', [
+            'orders' => $orders,
+            'menu' => Menu::all() 
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
