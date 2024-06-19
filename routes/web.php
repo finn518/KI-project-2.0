@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthManager;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\MenuController;
@@ -22,10 +23,9 @@ Route::get('/manager', [OrderController::class, 'indexManager']);
 Route::resource('/', MenuController::class);
 Route::get('/admin', [MenuController::class, 'indexAdmin'])->name('admin');
 Route::post('/admin', [MenuController::class, 'store']);
-
-Route::get('/p', function() {
-    return Inertia::render('Login');
-});
+Route::get('/login',[AuthManager::class, 'login'])->name('Login');
+Route::post('/login',[AuthManager::class,'loginPost'])->name('loginPost');
+Route::get('/admin',[AuthManager::class, 'Admin'])->name('admin');
 
 Route::get('/signup', function() {
     return Inertia::render('Register');
