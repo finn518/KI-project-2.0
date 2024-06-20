@@ -1,30 +1,37 @@
 import React, { useEffect, useState } from "react";
 import Cards from "@/Pages/Cards";
-import Card from './Card';
+import Card from "./Card";
 import { useForm } from "@inertiajs/react";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import Guest from "@/Layouts/GuestLayout";
+import Navbar from "./Navbar";
 
-const Home = (props) => {
+const Home = ({ auth, menu, flash }) => {
+    useEffect(() => {
+        document.title = "Pesan apa?";
+    }, []);
+
     const { data, setData, post } = useForm({
         atas_nama: "",
-        items: props.menu.map((item) => ({ item: item.nama, jumlah: 0 })),
+        items: menu.map((item) => ({ item: item.nama, jumlah: 0 })),
     });
 
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
     const [alert, setAlert] = useState(null);
 
     useEffect(() => {
-        if (props.flash?.success) {
-            setAlert(props.flash.success);
+        if (flash?.success) {
+            setAlert(flash.success);
             setTimeout(() => {
                 setAlert(null);
-            }, 3000); // Menghilangkan alert setelah 3 detik
+            }, 3000);
         }
-    }, [props.flash]);
+    }, [flash]);
 
     const resetForm = () => {
         setData({
             atas_nama: "",
-            items: props.menu.map((item) => ({ item: item.nama, jumlah: 0 })),
+            items: menu.map((item) => ({ item: item.nama, jumlah: 0 })),
         });
     };
 
@@ -54,36 +61,44 @@ const Home = (props) => {
     };
 
     return (
-        <div className="flex flex-col pb-[2%]">
-            {alert && (
-                <div
-                    className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded fixed top-4 left-1/2 transform -translate-x-1/2 z-50"
-                    role="alert"
+        <>
+            <Navbar />
+            <div className="flex flex-col pb-[2%]">
+                <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-row items-center justify-start mt-8 space-x-4"
                 >
-                    <span className="block sm:inline">{alert}</span>
-                </div>
-            )}
-            <Cards data={props.menu} onItemChange={handleItemChange} CardComponent={Card} isAdmin={false}/>
-            <form
-                onSubmit={handleSubmit}
-                className="flex flex-row items-center justify-start mt-8 space-x-4"
-            >
-                <input
-                    type="text"
-                    placeholder="Atas Nama"
-                    className="input input-bordered input-info w-full max-w-xs ml-24"
-                    value={data.atas_nama}
-                    onChange={(e) => setData("atas_nama", e.target.value)}
+                    <input
+                        type="text"
+                        placeholder="Atas Nama"
+                        className="input input-bordered input-info w-full max-w-xs ml-24"
+                        value={data.atas_nama}
+                        onChange={(e) => setData("atas_nama", e.target.value)}
+                    />
+                    <button
+                        type="submit"
+                        className="bg-purple-500 text-slate-50 p-4 w-full max-w-xs self-center rounded-lg"
+                        disabled={isSubmitDisabled}
+                    >
+                        Pesan
+                    </button>
+                </form>
+                {alert && (
+                    <div
+                        className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded fixed top-4 left-1/2 transform -translate-x-1/2 z-50"
+                        role="alert"
+                    >
+                        <span className="block sm:inline">{alert}</span>
+                    </div>
+                )}
+                <Cards
+                    data={menu}
+                    onItemChange={handleItemChange}
+                    CardComponent={Card}
+                    isAdmin={false}
                 />
-                <button
-                    type="submit"
-                    className="bg-purple-500 text-slate-50 p-4 w-full max-w-xs self-center rounded-lg"
-                    disabled={isSubmitDisabled}
-                >
-                    Pesan
-                </button>
-            </form>
-        </div>
+            </div>
+        </>
     );
 };
 

@@ -4,45 +4,22 @@ use App\Http\Controllers\AuthManager;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\Menu;
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
+Route::get('/', [AuthenticatedSessionController::class, 'index'])->name('home');
+Route::post('/', [OrderController::class, 'store'])->name('order.store');
 
-Route::resource('/order', OrderController::class);
-Route::get('/manager', [OrderController::class, 'indexManager']);
-Route::resource('/', MenuController::class);
-Route::get('/admin', [MenuController::class, 'indexAdmin'])->name('admin');
-Route::post('/admin', [MenuController::class, 'store']);
-Route::get('/login',[AuthManager::class, 'login'])->name('Login');
-Route::post('/login',[AuthManager::class,'loginPost'])->name('loginPost');
-Route::get('/admin',[AuthManager::class, 'Admin'])->name('admin');
-
-Route::get('/signup', function() {
-    return Inertia::render('Register');
-});
-
-// Route::get('/', function () {
-//     return Inertia::render('Home');
-// })->middleware(['auth', 'verified'])->name('home');
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
+// Order Route - Requires Authentication
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/admin', [MenuController::class, 'indexAdmin'])->name('admin');
+    Route::post('/admin', [MenuController::class, 'store']);
+    Route::delete('/admin', [MenuController::class, 'destroy'])->name('admin.destroy');
+    Route::get('order', [OrderController::class, 'index'])->name('order');
+    Route::get('manager',[OrderController::class, 'indexManager'])->name('manager');
 });
 
 require __DIR__.'/auth.php';

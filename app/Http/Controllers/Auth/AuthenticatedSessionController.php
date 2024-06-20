@@ -10,9 +10,31 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Menu;
 
 class AuthenticatedSessionController extends Controller
 {
+    /**
+     * Display the Home or Admin view based on authentication status.
+     */
+    public function index()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role === 'manager') {
+                return redirect()->route('manager');
+            } elseif ($user->role === 'admin') {
+                return redirect()->route('admin');
+            }
+        }
+
+        return Inertia::render('Home', [
+            'menu' => Menu::all(),
+            'auth' => auth()->user(),
+            'flash' => session('flash'),
+        ]);
+    }
+
     /**
      * Display the login view.
      */
@@ -33,7 +55,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = Auth::user();
+        if ($user->role === 'manager') {
+            return redirect()->intended(route('manager'));
+        } elseif ($user->role === 'admin') {
+            return redirect()->intended(route('admin'));
+        }
+
+        return redirect()->intended(route('home'));
     }
 
     /**
