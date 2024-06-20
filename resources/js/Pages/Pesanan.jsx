@@ -1,11 +1,7 @@
 import React from "react";
 
 const Pesanan = (props) => {
-    const getMenuPrice = (menuId) => {
-        const menu = props.menu.find((menuItem) => menuItem.id === menuId);
-        return menu ? menu.harga : 0;
-    };
-
+    console.log(props);
     return (
         <div>
             <h1 className="text-4xl text-center my-6">Daftar Pesanan</h1>
@@ -18,7 +14,7 @@ const Pesanan = (props) => {
                             <th>Atas Nama</th>
                             <th>Pesanan</th>
                             <th>Jumlah</th>
-                            <th>Total Harga</th>
+                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,13 +38,7 @@ const Pesanan = (props) => {
                                 </td>
                                 <td>
                                     <ul>
-                                        {order.order_items.map((item) => (
-                                            <li key={item.id}>
-                                                {item.jumlah *
-                                                    getMenuPrice(item)}
-                                                {console.log(item)}
-                                            </li>
-                                        ))}
+                                        <li>{order.total}</li>
                                     </ul>
                                 </td>
                             </tr>
