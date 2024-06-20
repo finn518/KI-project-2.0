@@ -61,6 +61,13 @@ Route::middleware('auth')->group(function () {
         }
         return app(MenuController::class)->destroy($id);
     })->name('admin.destroy');
+
+    Route::get('order', function () {
+        if (auth()->user()->role !== 'admin') {
+            return redirect('/');
+        }
+        return app(OrderController::class)->index();
+    })->name('order');
 });
 
 // Manager Routes
@@ -79,19 +86,12 @@ Route::middleware('auth')->group(function () {
         return app(RegisteredUserController::class)->store($request);
     });
 
-    Route::get('order', function () {
-        if (auth()->user()->role !== 'manager') {
-            return redirect('/');
-        }
-        return app(OrderController::class)->index();
-    })->name('order');
-
     Route::get('manager', function () {
         if (auth()->user()->role !== 'manager') {
             return redirect('/');
         }
         return app(OrderController::class)->indexManager();
-    })->name('manager')->middleware(['auth','manager']);
+    })->name('manager')->middleware(['manager']);
 });
 
 require __DIR__.'/auth.php';
