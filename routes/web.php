@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin', [MenuController::class, 'store']);
     Route::delete('/admin', [MenuController::class, 'destroy'])->name('admin.destroy');
     Route::get('order', [OrderController::class, 'index'])->name('order');
-    Route::get('manager',[OrderController::class, 'indexManager'])->name('manager');
+    Route::get('manager',[OrderController::class, 'indexManager'])->name('manager')->middleware(['auth','manager']);
 });
 
 require __DIR__.'/auth.php';

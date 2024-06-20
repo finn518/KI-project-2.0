@@ -35,6 +35,13 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
+    // function Manager(){
+    //     if(Auth::check()){
+    //         $user = auth::user();
+    //         if )
+    //         return inertia::render('Login');
+    //     } return inertia::render('admin');}
+
     /**
      * Display the login view.
      */
