@@ -16,6 +16,7 @@ const Cards = ({ data, onItemChange, CardComponent, isAdmin }) => {
                     nama={item.nama}
                     harga={item.harga}
                     index={index}
+                    menuId={item.id}
                     onItemChange={onItemChange}
                     isAdmin={isAdmin}
                 />

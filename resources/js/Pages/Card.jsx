@@ -1,13 +1,18 @@
 import React, { useState } from "react";
+import axios from "axios";
 
-const Card = ({ foto, nama, harga, onItemChange, index, isAdmin }) => {
+const Card = ({ foto, nama, harga, onItemChange, index, isAdmin, menuId }) => {
     const imageUrl = `/storage/images/${foto}`;
 
     const [value, setValue] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleChange = (newValue) => {
-        setValue(newValue);
-        onItemChange(index, newValue);
+        if (newValue >= 0) {
+            setValue(newValue);
+            onItemChange(index, newValue);
+        }
     };
 
     const minus = () => {
@@ -19,6 +24,27 @@ const Card = ({ foto, nama, harga, onItemChange, index, isAdmin }) => {
     const plus = () => {
         handleChange(value + 1);
     };
+
+    const handleDelete = async () => {
+        if (window.confirm("Apakah yakin ingin menghapus menu ini?")) {
+            setLoading(true);
+            try {
+                const response = await axios.delete(`/admin/${menuId}`);
+                if (response.status === 200) {
+                    alert('Menu berhasil dihapus!');
+                    window.location.reload();
+                } else {
+                    setError('Gagal menghapus menu');
+                }
+            } catch (error) {
+                console.error('Error deleting the menu!', error);
+                setError('Failed to delete menu');
+            } finally {
+                setLoading(false);
+            }
+        }
+    };
+
 
     return (
         <div className="flex flex-col ring-2 ring-slate-400 rounded-2xl p-4 gap-2">
@@ -64,9 +90,11 @@ const Card = ({ foto, nama, harga, onItemChange, index, isAdmin }) => {
             {isAdmin && (
                 <div className="flex justify-center mt-2">
                     <button
+                        onClick={handleDelete}
                         className="bg-red-400 px-2 size-8 text-slate-50 rounded-full w-1/2"
+                        disabled={loading}
                     >
-                        Hapus
+                        {loading ? 'Deleting...' : 'Hapus'}
                     </button>
                 </div>
             )}

@@ -87,8 +87,12 @@ class MenuController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Menu $menu)
+    public function destroy($id)
     {
-        
+        $menu = Menu::find($id);
+            Storage::delete('public/images/' . $menu->gambar);
+            $menu->delete();
+
+        return response()->json(['success' => 'Menu deleted successfully'], 200);
     }
 }
